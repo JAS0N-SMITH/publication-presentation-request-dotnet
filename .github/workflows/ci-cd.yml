@@ -29,7 +29,7 @@ jobs:
       run: dotnet build --no-restore --configuration Release
 
     - name: Run tests
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test Backend/Backend.csproj --no-build --verbosity normal
 
   # deploy-backend:
   #   name: Deploy Backend to Azure App Service
