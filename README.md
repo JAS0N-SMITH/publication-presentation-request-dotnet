@@ -17,18 +17,18 @@ This system is designed to formalize and streamline the request, review, and app
 ## Getting Started
 
 ### Prerequisites
-- .NET 8 SDK
-- Node.js (for frontend development)
+- .NET 9 SDK
 - Azure account for Entra ID and Blob Storage setup
+- SQL Server Management Studio (for database management)
 
 ### Setup Instructions
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/dotnet-github-agent-test.git
+   git clone https://github.com/your-repo/publication-presentation-request-dotnet.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd dotnet-github-agent-test
+   cd publication-presentation-request-dotnet
    ```
 3. Install backend dependencies:
    ```bash
@@ -59,3 +59,20 @@ We welcome contributions! Please follow these steps:
 2. Create a new branch for your feature or bugfix.
 3. Submit a pull request with a detailed description of your changes.
 
+## CI/CD pipeline using GitHub Actions
+
+### It includes the following steps:
+
+#### Build and Test
+
+Restores dependencies, builds the solution, and runs tests for both frontend and backend.
+
+#### Deploy Backend
+
+Deploys the backend to Azure App Service using the azure/webapps-deploy action.
+
+#### Deploy Frontend
+
+Builds the frontend and deploys it to Azure Static Web Apps using the Azure/static-web-apps-deploy action.
+
+_Note: Make sure to add the required secrets (AZURE_CREDENTIALS and AZURE_STATIC_WEB_APPS_API_TOKEN) to your GitHub repository settings for the deployment steps to work._
