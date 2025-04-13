@@ -1,0 +1,140 @@
+openapi: 3.0.1
+info:
+  title: Publication and Presentation Request API
+  version: 1.0.0
+paths:
+  /api/requests:
+    get:
+      summary: List all requests
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum: [Publication, Presentation]
+        - in: query
+          name: stage
+          schema:
+            type: string
+        - in: query
+          name: department
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of requests
+    post:
+      summary: Create a new request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  createdBy:
+                    type: string
+                    description: ID of the user who created the request
+  /api/requests/{id}:
+    get:
+      summary: Get Single Request
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Details of a specific request
+    put:
+      summary: Update Request Fields
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestUpdate'
+      responses:
+        '200':
+          description: Updated
+  /api/requests/{id}/submit:
+    post:
+      summary: Submit Request
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Submitted
+  /api/requests/{id}/action:
+    post:
+      summary: Perform Action on Request
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestAction'
+      responses:
+        '200':
+          description: Action performed
+  /api/requests/{id}/timeline:
+    get:
+      summary: Get Request Timeline
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Timeline of the request
+  /api/requests/types/metadata:
+    get:
+      summary: Get Metadata for Request Types
+      responses:
+        '200':
+          description: Metadata for request types
+components:
+  schemas:
+    RequestCreate:
+      type: object
+      properties:
+        CreatedBy:
+          type: string
+          description: ID of the user who created the request
+        UpdatedBy:
+          type: string
+          description: ID of the user who last updated the request
+    RequestUpdate:
+      type: object
+      properties:
+        UpdatedBy:
+          type: string
+          description: ID of the user who last updated the request

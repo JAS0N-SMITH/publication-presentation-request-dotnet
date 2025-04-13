@@ -1,0 +1,15 @@
+@startuml ComponentDiagram
+actor Requestor
+actor Approver
+actor Admin
+
+Requestor --> WebApp : Submit Requests
+Approver --> WebApp : Review/Approve/Return
+Admin --> WebApp : Manage + Override
+
+WebApp --> API : REST/JSON
+API --> AuthService : Azure EntraID
+API --> AuthService : Azure AD
+API --> BlobStorage : Upload Materials
+
+@enduml
