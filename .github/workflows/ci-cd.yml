@@ -45,12 +45,12 @@ jobs:
     - name: Run frontend tests
       run: dotnet test Frontend.Tests/Frontend.Tests.csproj --no-build --verbosity normal
 
-    - name: Upload test results
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: test-results
-        path: '**/TestResults/**/*.trx'
+    # - name: Upload test results
+    #   if: always()
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: test-results
+    #     path: '**/TestResults/**/*.trx'
 
   # deploy-backend:
   #   name: Deploy Backend to Azure App Service
