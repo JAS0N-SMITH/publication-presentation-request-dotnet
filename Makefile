@@ -5,9 +5,11 @@ start-frontend:
 	dotnet run --project Frontend/Frontend.csproj
 
 test-backend:
+	dotnet restore
 	dotnet test Backend.Tests/Backend.Tests.csproj
 
 test-frontend:
+	dotnet restore
 	dotnet test Frontend.Tests/Frontend.Tests.csproj
 
 run-all: 

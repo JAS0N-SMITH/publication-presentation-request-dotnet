@@ -90,7 +90,7 @@ The system must include a visual component (vertical or horizontal) to represent
 - **Responsible Role/User**
 - **Action Description** (e.g., approved, returned, reset, etc.)
 
-### Database Schema (Simplified)
+### Database Schema (Updated)
 
 ### Users Table
 
@@ -157,6 +157,12 @@ The system must include a visual component (vertical or horizontal) to represent
 | **ActorId**       | UNIQUEIDENTIFIER | Foreign Key to `Users` table             |
 | **Timestamp**     | DATETIME         | Timestamp of the action                  |
 | **Notes**         | NVARCHAR(MAX)    | Additional notes for the action          |
+
+### Indexes
+
+- **Requests Table**: Index on `Status` and `SubmitterId`.
+- **RequestStages Table**: Index on `RequestId`.
+- **RequestLogs Table**: Index on `RequestId`.
 
 ### Database Schema Updates
 

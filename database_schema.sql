@@ -1,19 +1,15 @@
--- SQL script for Users Table
+-- Users Table
 CREATE TABLE Users (
     Id UNIQUEIDENTIFIER PRIMARY KEY,
-    AzureAdObjectId NVARCHAR(64) NOT NULL,
+    AzureAdObjectId NVARCHAR(64) UNIQUE NOT NULL,
     DisplayName NVARCHAR(255) NOT NULL,
-    Email NVARCHAR(255) NOT NULL,
+    Email NVARCHAR(255) UNIQUE NOT NULL,
     Role NVARCHAR(50) NOT NULL,
     Department NVARCHAR(255),
     DeletedAt DATETIME
 );
 
--- Added UNIQUE constraints to ensure data integrity
-ALTER TABLE Users ADD CONSTRAINT UQ_AzureAdObjectId UNIQUE (AzureAdObjectId);
-ALTER TABLE Users ADD CONSTRAINT UQ_Email UNIQUE (Email);
-
--- SQL script for Requests Table
+-- Requests Table
 CREATE TABLE Requests (
     Id UNIQUEIDENTIFIER PRIMARY KEY,
     Type NVARCHAR(50) NOT NULL,
@@ -22,20 +18,16 @@ CREATE TABLE Requests (
     Authors NVARCHAR(MAX),
     SubmitterId UNIQUEIDENTIFIER NOT NULL,
     CurrentStage NVARCHAR(50) NOT NULL,
-    Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',
-    CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
-    UpdatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+    Status NVARCHAR(50) DEFAULT 'Pending',
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    UpdatedAt DATETIME DEFAULT GETDATE(),
     CreatedBy UNIQUEIDENTIFIER,
     UpdatedBy UNIQUEIDENTIFIER,
     DeletedAt DATETIME,
     FOREIGN KEY (SubmitterId) REFERENCES Users(Id)
 );
 
--- Added indexes for frequently queried columns
-CREATE INDEX IDX_Requests_Status ON Requests (Status);
-CREATE INDEX IDX_Requests_SubmitterId ON Requests (SubmitterId);
-
--- SQL script for RequestStages Table
+-- RequestStages Table
 CREATE TABLE RequestStages (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     RequestId UNIQUEIDENTIFIER NOT NULL,
@@ -49,10 +41,7 @@ CREATE TABLE RequestStages (
     FOREIGN KEY (ActorId) REFERENCES Users(Id)
 );
 
--- Added indexes for frequently queried columns
-CREATE INDEX IDX_RequestStages_RequestId ON RequestStages (RequestId);
-
--- SQL script for RequestDetails Table
+-- RequestDetails Table
 CREATE TABLE RequestDetails (
     RequestId UNIQUEIDENTIFIER PRIMARY KEY,
     FundingInfo NVARCHAR(MAX),
@@ -64,17 +53,19 @@ CREATE TABLE RequestDetails (
     FOREIGN KEY (RequestId) REFERENCES Requests(Id)
 );
 
--- SQL script for RequestLogs Table
+-- RequestLogs Table
 CREATE TABLE RequestLogs (
     Id UNIQUEIDENTIFIER PRIMARY KEY,
     RequestId UNIQUEIDENTIFIER NOT NULL,
     Action NVARCHAR(50) NOT NULL,
     ActorId UNIQUEIDENTIFIER NOT NULL,
-    Timestamp DATETIME NOT NULL DEFAULT GETDATE(),
+    Timestamp DATETIME DEFAULT GETDATE(),
     Notes NVARCHAR(MAX),
     FOREIGN KEY (RequestId) REFERENCES Requests(Id),
     FOREIGN KEY (ActorId) REFERENCES Users(Id)
 );
 
--- Added indexes for frequently queried columns
+-- Indexes
+CREATE INDEX IDX_Requests_Status_SubmitterId ON Requests (Status, SubmitterId);
+CREATE INDEX IDX_RequestStages_RequestId ON RequestStages (RequestId);
 CREATE INDEX IDX_RequestLogs_RequestId ON RequestLogs (RequestId);
