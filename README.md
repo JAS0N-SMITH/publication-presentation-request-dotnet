@@ -1,4 +1,4 @@
-# dotnet-github-agent-test
+# publication-presentation-request-dotnet
 Testing github's new agent on a fresh dotnet application
 
 ## Background
@@ -22,6 +22,7 @@ This system is designed to formalize and streamline the request, review, and app
 - SQL Server Management Studio (for database management)
 
 ### Setup Instructions
+
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-repo/publication-presentation-request-dotnet.git
@@ -32,16 +33,37 @@ This system is designed to formalize and streamline the request, review, and app
    ```
 3. Install backend dependencies:
    ```bash
-   dotnet restore
+   dotnet restore Backend/Backend.csproj
    ```
 4. Install frontend dependencies:
    ```bash
-   cd frontend && npm install
+   dotnet restore Frontend/Frontend.csproj
    ```
-5. Run the application:
+5. Build the solution:
    ```bash
-   dotnet run
+   dotnet build
    ```
+6. Run the backend application:
+   ```bash
+   make start-backend
+   ```
+7. Run the frontend application:
+   ```bash
+   make start-frontend
+   ```
+8. Run tests:
+   - To run backend tests:
+     ```bash
+     make test-backend
+     ```
+   - To run frontend tests:
+     ```bash
+     make test-frontend
+     ```
+   - To run all tests:
+     ```bash
+     make test-all
+     ```
 
 ## Technology Stack
 - **Frontend**: Blazor (WebAssembly)
@@ -76,3 +98,17 @@ Deploys the backend to Azure App Service using the azure/webapps-deploy action.
 Builds the frontend and deploys it to Azure Static Web Apps using the Azure/static-web-apps-deploy action.
 
 _Note: Make sure to add the required secrets (AZURE_CREDENTIALS and AZURE_STATIC_WEB_APPS_API_TOKEN) to your GitHub repository settings for the deployment steps to work._
+
+## Using the Makefile
+
+To simplify running the application and tests, a `Makefile` has been added to the project. You can use the following commands:
+
+- `make start-backend`: Starts the backend application.
+- `make start-frontend`: Starts the frontend application.
+- `make test-backend`: Runs the backend tests.
+- `make test-frontend`: Runs the frontend tests.
+- `make test-all`: Runs both backend and frontend tests sequentially.
+- `make run-all`: Runs both backend and frontend applications sequentially. 
+- `make test-and-run-all`: Runs both backend and frontend tests and applications sequentially.
+
+This provides a convenient way to manage the project without needing to remember long commands.
