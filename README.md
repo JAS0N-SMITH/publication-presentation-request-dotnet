@@ -31,27 +31,28 @@ This system is designed to formalize and streamline the request, review, and app
    ```bash
    cd publication-presentation-request-dotnet
    ```
-3. Install backend dependencies:
+3. Install dependencies for both backend and frontend:
    ```bash
-   dotnet restore Backend/Backend.csproj
+   make update-packages
    ```
-4. Install frontend dependencies:
+4. Build the solution:
    ```bash
-   dotnet restore Frontend/Frontend.csproj
+   make build-all
    ```
-5. Build the solution:
-   ```bash
-   dotnet build
-   ```
-6. Run the backend application:
-   ```bash
-   make start-backend
-   ```
-7. Run the frontend application:
-   ```bash
-   make start-frontend
-   ```
-8. Run tests:
+5. Run the application:
+   - Run the backend application
+      ```bash
+      make start-backend
+      ```
+   - Run the frontend application
+      ```bash
+      make start-frontend
+      ```
+   - Run both frontend and backend:
+      ```bash
+      make start-both
+      ```
+6. Run tests:
    - To run backend tests:
      ```bash
      make test-backend
@@ -63,6 +64,19 @@ This system is designed to formalize and streamline the request, review, and app
    - To run all tests:
      ```bash
      make test-all
+     ```
+7. Lint the code:
+   - To lint the backend:
+     ```bash
+     make lint-backend
+     ```
+   - To lint the frontend:
+     ```bash
+     make lint-frontend
+     ```
+   - To lint both:
+     ```bash
+     make lint-all
      ```
 
 ## Technology Stack
@@ -108,7 +122,16 @@ To simplify running the application and tests, a `Makefile` has been added to th
 - `make test-backend`: Runs the backend tests.
 - `make test-frontend`: Runs the frontend tests.
 - `make test-all`: Runs both backend and frontend tests sequentially.
-- `make run-all`: Runs both backend and frontend applications sequentially. 
+- `make run-all`: Runs both backend and frontend applications sequentially.
 - `make test-and-run-all`: Runs both backend and frontend tests and applications sequentially.
+- `make update-packages`: Restores and updates all project dependencies.
+- `make clean`: Cleans the build directories for both backend and frontend.
+- `make build-backend`: Builds the backend project.
+- `make build-frontend`: Builds the frontend project.
+- `make build-all`: Builds both backend and frontend projects.
+- `make lint-backend`: Runs the linter for the backend project.
+- `make lint-frontend`: Runs the linter for the frontend project.
+- `make lint-all`: Runs the linter for both backend and frontend projects.
+- `make deploy`: Simulates deploying the application.
 
 This provides a convenient way to manage the project without needing to remember long commands.
