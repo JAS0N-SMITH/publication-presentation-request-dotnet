@@ -11,6 +11,11 @@ test-frontend:
 	dotnet test Frontend.Tests/Frontend.Tests.csproj
 
 run-all: 
-	start-backend start-frontend
+	make start-backend &
+	make start-frontend
 
 test-all: test-backend test-frontend
+
+test-and-run-all: test-all
+	make start-backend &
+	make start-frontend
