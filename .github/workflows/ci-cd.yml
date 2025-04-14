@@ -34,16 +34,16 @@ jobs:
           ${{ runner.os }}-nuget-
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: make update-packages
 
     - name: Build solution
-      run: dotnet build --no-restore --configuration Release
+      run: make build-all
 
     - name: Run backend tests
-      run: dotnet test Backend.Tests/Backend.Tests.csproj --no-build --verbosity normal
+      run: make test-backend
 
     - name: Run frontend tests
-      run: dotnet test Frontend.Tests/Frontend.Tests.csproj --no-build --verbosity normal
+      run: make test-frontend
 
     # - name: Upload test results
     #   if: always()
