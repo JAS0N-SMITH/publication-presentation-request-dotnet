@@ -12,6 +12,9 @@ jobs:
   build:
     name: Build and Test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [9.0.x]
 
     steps:
     - name: Checkout code
@@ -20,7 +23,15 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '9.0.x'
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    - name: Cache .NET packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
 
     - name: Restore dependencies
       run: dotnet restore
@@ -28,8 +39,18 @@ jobs:
     - name: Build solution
       run: dotnet build --no-restore --configuration Release
 
-    - name: Run tests
+    - name: Run backend tests
       run: dotnet test Backend.Tests/Backend.Tests.csproj --no-build --verbosity normal
+
+    - name: Run frontend tests
+      run: dotnet test Frontend.Tests/Frontend.Tests.csproj --no-build --verbosity normal
+
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: '**/TestResults/**/*.trx'
 
   # deploy-backend:
   #   name: Deploy Backend to Azure App Service
